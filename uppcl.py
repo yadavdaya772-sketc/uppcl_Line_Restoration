@@ -96,11 +96,22 @@ SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
 ]
+
 creds = Credentials.from_service_account_info(
     st.secrets["gcp_service_account"],
     scopes=SCOPES
-
 )
+
+# DEBUG TEST
+from google.auth.transport.requests import Request
+
+try:
+    creds.refresh(Request())
+    st.success("AUTH SUCCESS")
+except Exception as e:
+    st.error(f"AUTH FAILED: {repr(e)}")
+    st.stop()
+
 client = gspread.authorize(creds)
 
 sheet = client.open_by_key("1J6YMS7jaCWp7K8rTnV281V09yCMsg7tiDOMzu8CQ880")
