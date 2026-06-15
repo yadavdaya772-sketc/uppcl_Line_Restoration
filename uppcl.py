@@ -103,7 +103,7 @@ creds = Credentials.from_service_account_info(
 )
 client = gspread.authorize(creds)
 
-sheet = client.open("Tower Restoration Database")
+sheet = client.open_by_key("1J6YMS7jaCWp7K8rTnV281V09yCMsg7tiDOMzu8CQ880")
 
 events_ws = sheet.worksheet("Events")
 materials_ws = sheet.worksheet("Materials")
