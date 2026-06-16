@@ -97,8 +97,15 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive"
 ]
 
+service_info = dict(st.secrets["gcp_service_account"])
+
+service_info["private_key"] = (
+    service_info["private_key"]
+    .replace("\\n", "\n")
+)
+
 creds = Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"],
+    service_info,
     scopes=SCOPES
 )
 
