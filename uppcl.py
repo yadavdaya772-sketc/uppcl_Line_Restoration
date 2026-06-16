@@ -28,17 +28,17 @@ PHOTO_FOLDER_ID = "1XbY2-CUHa3TiIz_2JImoSpb60oae2fAj"
 
 def upload_to_drive(uploaded_file):
 
- service_info = dict(st.secrets["gcp_service_account"])
+    service_info = dict(st.secrets["gcp_service_account"])
 
-service_info["private_key"] = (
-    service_info["private_key"]
-    .replace("\\n", "\n")
-)
+    service_info["private_key"] = (
+        service_info["private_key"]
+        .replace("\\n", "\n")
+    )
 
-creds = Credentials.from_service_account_info(
-    service_info,
-    scopes=["https://www.googleapis.com/auth/drive"]
-)
+    creds = Credentials.from_service_account_info(
+        service_info,
+        scopes=["https://www.googleapis.com/auth/drive"]
+    )
 
     drive_service = build(
         "drive",
@@ -85,36 +85,6 @@ creds = Credentials.from_service_account_info(
 
         st.error(str(e))
         raise
-
-    file_id = uploaded.get("id")
-
-    drive_service.permissions().create(
-        fileId=file_id,
-        body={
-            "type": "anyone",
-            "role": "reader"
-        }
-    ).execute()
-    return f"https://drive.google.com/file/d/{file_id}/view"
- 
-st.set_page_config(page_title="Line Restoration Portal", layout="wide") 
-
-SCOPES = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
-]
-
-service_info = dict(st.secrets["gcp_service_account"])
-
-service_info["private_key"] = (
-    service_info["private_key"]
-    .replace("\\n", "\n")
-)
-
-creds = Credentials.from_service_account_info(
-    service_info,
-    scopes=SCOPES
-)
 
 # DEBUG TEST
 from google.auth.transport.requests import Request
