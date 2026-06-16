@@ -89,15 +89,6 @@ def upload_to_drive(uploaded_file):
 # DEBUG TEST
 from google.auth.transport.requests import Request
 
-try:
-    creds.refresh(Request())
-    st.success("AUTH SUCCESS")
-except Exception as e:
-    st.error(f"AUTH FAILED: {repr(e)}")
-    st.stop()
-
-st.set_page_config(page_title="Line Restoration Portal", layout="wide")
-
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
@@ -115,15 +106,15 @@ creds = Credentials.from_service_account_info(
     scopes=SCOPES
 )
 
-# YAHAN ADD KARNA HAI 👇
-from google.auth.transport.requests import Request
-
 try:
     creds.refresh(Request())
     st.success("AUTH SUCCESS")
 except Exception as e:
     st.error(f"AUTH FAILED: {repr(e)}")
     st.stop()
+
+st.set_page_config(page_title="Line Restoration Portal", layout="wide")
+
 
 # Iske baad
 client = gspread.authorize(creds)
