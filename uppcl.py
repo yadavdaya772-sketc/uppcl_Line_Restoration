@@ -96,6 +96,42 @@ except Exception as e:
     st.error(f"AUTH FAILED: {repr(e)}")
     st.stop()
 
+st.set_page_config(page_title="Line Restoration Portal", layout="wide")
+
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
+service_info = dict(st.secrets["gcp_service_account"])
+
+service_info["private_key"] = (
+    service_info["private_key"]
+    .replace("\\n", "\n")
+)
+
+creds = Credentials.from_service_account_info(
+    service_info,
+    scopes=SCOPES
+)
+
+# YAHAN ADD KARNA HAI 👇
+from google.auth.transport.requests import Request
+
+try:
+    creds.refresh(Request())
+    st.success("AUTH SUCCESS")
+except Exception as e:
+    st.error(f"AUTH FAILED: {repr(e)}")
+    st.stop()
+
+# Iske baad
+client = gspread.authorize(creds)
+
+sheet = client.open_by_key(
+    "1J6YMS7jaCWp7K8rTnV281V09yCMsg7tiDOMzu8CQ880"
+)
+
 client = gspread.authorize(creds)
 
 sheet = client.open_by_key("1J6YMS7jaCWp7K8rTnV281V09yCMsg7tiDOMzu8CQ880")
